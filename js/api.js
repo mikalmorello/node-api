@@ -54,7 +54,7 @@ function coursesSearch(response){
       // Search for instructor
       var instructorMatch = termInstructors.find(function(instructor) {
         //if(instructor === searchValue){
-        if (searchValue === instructor.slice(0, searchValue.length)) {
+        if (searchValue.toLowerCase() === instructor.slice(0, searchValue.length).toLowerCase()) {
           if (!coursesMatch.includes(courseId)) {
             coursesMatch.push(courseId);
           }
