@@ -26,8 +26,21 @@ function handleError() {
 // COURSE SEARCH
 
 function courseaSearch(response){
-  console.log('course search running');
-  console.log(response);
+//  console.log('course search running');
+//  console.log(response);
+  // Set courses to response
+  let courses = response;
+  
+  // Loop through courses
+  for (const key of Object.keys(courses)) {
+    //console.log(key, courses[key]);
+    let course = courses[key],
+        courseId = key,
+        courseArea = courses[key].course_area;
+    console.log('course number is' + courseId );
+    console.log('course area is' + courseArea );
+  }
+  
 }
 
 
