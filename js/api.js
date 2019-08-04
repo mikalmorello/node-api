@@ -1,11 +1,16 @@
 // VARIABLES
 const request = new XMLHttpRequest(),
-      baseUrl = 'data/Courses.json';
+      baseUrl = 'data/Courses.json',
+      searchInput = document.getElementById('searchInput'),
+      searchButton = document.getElementById('searchButton');
+
+let searchValue = '';
 
 // FUNCTIONS
 
 // API Call
 function callThatAPI() {
+  let thing = searchValue;
   request.open('GET', `${baseUrl}`);
   request.send();
   request.onload = handleSuccess;
@@ -13,9 +18,9 @@ function callThatAPI() {
 }
 
 // API Success
-function handleSuccess() {
-  var response = JSON.parse(request.responseText);
-  courseaSearch(response);
+function handleSuccess(thing) {
+  let response = JSON.parse(request.responseText);
+  coursesSearch(response);
 }
 
 // API Error
@@ -25,15 +30,12 @@ function handleError() {
 
 // COURSE SEARCH
 
-function courseaSearch(response){
-//  console.log('course search running');
-//  console.log(response);
+function coursesSearch(response){
   // Set courses to response
-  let courses = response;
-  
+  let courses = response,
+      coursesMatch = [];
   // Loop through courses
   for (const key of Object.keys(courses)) {
-    //console.log(key, courses[key]);
     let course = courses[key],
         courseId = key,
         courseArea = courses[key].course_area,
@@ -43,25 +45,28 @@ function courseaSearch(response){
     for (const term of Object.keys(courses[key].terms)) {
       
       let termInstructors = courses[key].terms[term].instructors;
-      //console.log(termInstructors);
       
       // Search for instructor
       var instructorMatch = termInstructors.find(function(instructor) {
-        if(instructor === 'David Brooks'){
-          console.log('course number is' + courseId );
-        } 
+        if(instructor === searchValue){
+          //console.log('course number is' + courseId + ' search value is ' + searchValue );
+          coursesMatch.push(courseId);
+        }
       });
-//      console.log(term);
-
     }
-//    console.log('course area is' + courseArea );
-//    console.log('course area is' + courseTerms );
   }
-  
+  if(coursesMatch.length === 0){
+    console.log('instructor does not exist: ' + searchValue);
+  } else {
+    console.log(coursesMatch);
+    console.log(searchValue); 
+  }
 }
 
+// RUN SEARCH ON INPUT
 
-// RUN APPLICATION
-
-callThatAPI();
-console.log('working');
+searchButton.addEventListener('click', function() {
+  event.preventDefault();
+  searchValue = searchInput.value;
+  callThatAPI();
+});
