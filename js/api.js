@@ -36,9 +36,26 @@ function courseaSearch(response){
     //console.log(key, courses[key]);
     let course = courses[key],
         courseId = key,
-        courseArea = courses[key].course_area;
-    console.log('course number is' + courseId );
-    console.log('course area is' + courseArea );
+        courseArea = courses[key].course_area,
+        courseTerms = courses[key].terms;
+    
+    // Loop through course terms
+    for (const term of Object.keys(courses[key].terms)) {
+      
+      let termInstructors = courses[key].terms[term].instructors;
+      //console.log(termInstructors);
+      
+      // Search for instructor
+      var instructorMatch = termInstructors.find(function(instructor) {
+        if(instructor === 'David Brooks'){
+          console.log('course number is' + courseId );
+        } 
+      });
+//      console.log(term);
+
+    }
+//    console.log('course area is' + courseArea );
+//    console.log('course area is' + courseTerms );
   }
   
 }
