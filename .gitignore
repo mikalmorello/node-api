@@ -1,0 +1,12 @@
+# OS generated files 
+.DS_Store*
+ehthumbs.db
+Icon?
+Thumbs.db
+._*
+
+# SASS Cache
+.sass-cache
+
+# Ignore Node Module and Vendor Packages
+node_modules/
