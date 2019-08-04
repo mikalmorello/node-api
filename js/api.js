@@ -9,24 +9,29 @@ let searchValue = '';
 // FUNCTIONS
 
 // API Call
+
 function callThatAPI() {
-  let thing = searchValue;
   request.open('GET', `${baseUrl}`);
   request.send();
   request.onload = handleSuccess;
   request.onerror = handleError;
 }
 
+
 // API Success
-function handleSuccess(thing) {
+
+function handleSuccess() {
   let response = JSON.parse(request.responseText);
   coursesSearch(response);
 }
 
+
 // API Error
+
 function handleError() {
   console.log('oops');
 }
+
 
 // COURSE SEARCH
 
@@ -48,9 +53,11 @@ function coursesSearch(response){
       
       // Search for instructor
       var instructorMatch = termInstructors.find(function(instructor) {
-        if(instructor === searchValue){
-          //console.log('course number is' + courseId + ' search value is ' + searchValue );
-          coursesMatch.push(courseId);
+        //if(instructor === searchValue){
+        if (searchValue === instructor.slice(0, searchValue.length)) {
+          if (!coursesMatch.includes(courseId)) {
+            coursesMatch.push(courseId);
+          }
         }
       });
     }
@@ -70,3 +77,14 @@ searchButton.addEventListener('click', function() {
   searchValue = searchInput.value;
   callThatAPI();
 });
+
+
+searchInput.onkeyup = function() {
+  // updates the variable on each ocurrence
+  searchValue = this.value; 
+  
+  // If input is being used
+  if (searchValue.length > 0) {
+    callThatAPI();
+  }
+}
