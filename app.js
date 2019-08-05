@@ -59,6 +59,11 @@ app.get('/courses/instructor/:id', function (req, res) {
         if (searchValue.toLowerCase() === instructor.slice(0, searchValue.length).toLowerCase()) {
           if (!coursesMatch.includes(course)) {
             coursesMatch.push(course);
+            
+            console.log(courseId);
+            console.log(course);
+//            obj.courseId = course;
+            
           }
         }
       });
@@ -76,7 +81,46 @@ app.get('/courses/instructor/:id', function (req, res) {
 
 // COURSES API
 app.get('/courses/:id', function (req, res) {
-  res.send('courses: '+ req.params.id);
+//  res.send('courses: '+ req.params.id);
+  
+ let searchValue = req.params.id;
+  
+  // Set courses to response
+  let courses = Object.entries(data),
+      coursesMatch = [];
+  
+  // Loop through courses
+//  const keys = Object.keys(courses);
+  
+  for (const course of courses) {
+
+    let //course = courses[key],
+        courseId = course[0],
+        courseArea = course[1].course_area,
+        courseTerms = course[1].terms;
+    
+    // Loop through course terms
+    for (const term of  Object.keys(course[1].terms)) {
+      
+      let termInstructors = course[1].terms[term].instructors;
+      
+      // Search for instructor
+      var instructorMatch = termInstructors.find(function(instructor) {
+        //if(instructor === searchValue){
+        if (searchValue.toLowerCase() === instructor.slice(0, searchValue.length).toLowerCase()) {
+          if (!coursesMatch.includes(course)) {
+            coursesMatch.push(course);
+          }
+        }
+      });
+    }
+  }
+  
+  if(coursesMatch.length === 0){
+    console.log('instructor does not exist: ' + searchValue);
+  } else {
+    res.json(coursesMatch);
+  }
 })
 
 
