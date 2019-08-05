@@ -40,6 +40,7 @@ app.get('/courses/instructor/:id', function (req, res) {
   // Set courses to response
   let courses = data,
       coursesMatch = [];
+  
   // Loop through courses
   for (const key of Object.keys(courses)) {
     let course = courses[key],
@@ -56,8 +57,8 @@ app.get('/courses/instructor/:id', function (req, res) {
       var instructorMatch = termInstructors.find(function(instructor) {
         //if(instructor === searchValue){
         if (searchValue.toLowerCase() === instructor.slice(0, searchValue.length).toLowerCase()) {
-          if (!coursesMatch.includes(courseId)) {
-            coursesMatch.push(courseId);
+          if (!coursesMatch.includes(course)) {
+            coursesMatch.push(course);
           }
         }
       });
@@ -66,8 +67,9 @@ app.get('/courses/instructor/:id', function (req, res) {
   if(coursesMatch.length === 0){
     console.log('instructor does not exist: ' + searchValue);
   } else {
-    console.log(coursesMatch);
-    console.log(searchValue); 
+    //console.log(coursesMatch);
+    //console.log(searchValue); 
+    res.json(coursesMatch);
   }
 
 })
