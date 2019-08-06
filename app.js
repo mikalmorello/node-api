@@ -99,7 +99,12 @@ app.get('/courses/:id', function (req, res) {
     let //course = courses[key],
         courseId = course[0],
         courseArea = course[1].course_area,
-        courseTerms = course[1].terms;
+        courseTerms = course[1].terms,
+        courseNew = {};
+    
+        // create course object
+        courseNew[course[0]] = course[1]; 
+        console.log(courseNew);
     
     // Loop through course terms
     for (const term of  Object.keys(course[1].terms)) {
@@ -110,10 +115,6 @@ app.get('/courses/:id', function (req, res) {
       var instructorMatch = termInstructors.find(function(instructor) {
         //if(instructor === searchValue){
         if (searchValue.toLowerCase() === instructor.slice(0, searchValue.length).toLowerCase()) {
-          
-          let courseNew = {};
-            courseNew[course[0]] = course[1]; 
-//            console.log(courseNew);
           
           if (!coursesMatch.includes(courseNew)) {
             coursesMatch.push(courseNew);
@@ -126,6 +127,7 @@ app.get('/courses/:id', function (req, res) {
   if(coursesMatch.length === 0){
     console.log('instructor does not exist: ' + searchValue);
   } else {
+//    console.log(coursesMatch);
     res.json(coursesMatch);
   }
 })
