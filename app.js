@@ -27,7 +27,7 @@ app.get('/courses/instructor/:id', function (req, res) {
   // Assign initial variables
   let courses = data,
       searchValue = req.params.id,
-      coursesMatch = {};
+      courseMatch = {};
   
   // Loop through courses
   for (const key of Object.keys(courses)) {
@@ -44,16 +44,20 @@ app.get('/courses/instructor/:id', function (req, res) {
         // Check substring of instructors name
         if (searchValue.toLowerCase() === instructor.slice(0, searchValue.length).toLowerCase()) {
           // If course does not already exist in object, add it
-            if(!coursesMatch.hasOwnProperty(courseId)){
-              coursesMatch[courseId] = course; 
+            if(!courseMatch.hasOwnProperty(courseId)){
+              courseMatch[courseId] = course; 
             }
         }
       });
     }
   }
   
-  // Return JSON results
-    res.json(coursesMatch);
+  // Return JSON results if courseMatch object is not empty
+  if(!(Object.entries(courseMatch).length === 0 && courseMatch.constructor === Object)){
+    res.json(courseMatch);
+  } else {
+    res.status(400).json({ msg: 'No instructor matches found' });
+  }
 
 })
 
