@@ -56,7 +56,7 @@ app.get('/courses/instructor/:id', function (req, res) {
   if(!(Object.entries(courseMatch).length === 0 && courseMatch.constructor === Object)){
     res.json(courseMatch);
   } else {
-    res.status(400).json({ msg: 'No instructor matches found' });
+    res.status(400).json({ msg: `No instructor names match search query: ${searchValue}` });
   }
 
 })
