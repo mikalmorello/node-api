@@ -29,7 +29,9 @@ fs.readFile('data/Courses.json', 'utf8', function (err, contents) {
 // ROUTES
 
 // HOME API
-app.get('/', (req, res) => res.send('Hello World!'))
+app.get('/', function (req, res) {
+  res.json(data);
+});
 
 
 // INSTRUCTOR API
@@ -108,8 +110,13 @@ app.get('/courses/:id', function (req, res) {
       var instructorMatch = termInstructors.find(function(instructor) {
         //if(instructor === searchValue){
         if (searchValue.toLowerCase() === instructor.slice(0, searchValue.length).toLowerCase()) {
-          if (!coursesMatch.includes(course)) {
-            coursesMatch.push(course);
+          
+          let courseNew = {};
+            courseNew[course[0]] = course[1]; 
+//            console.log(courseNew);
+          
+          if (!coursesMatch.includes(courseNew)) {
+            coursesMatch.push(courseNew);
           }
         }
       });
