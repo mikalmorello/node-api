@@ -27,30 +27,27 @@ app.get('/courses/instructor/:id', function (req, res) {
   
   // Set courses to response
   let courses = data,
-      coursesMatch = [];
+      coursesMatch = [],
+      coursesSet = {};
   
   // Loop through courses
   for (const key of Object.keys(courses)) {
     let course = courses[key],
         courseId = key,
         courseArea = courses[key].course_area,
-        courseTerms = courses[key].terms,
-        courseNew = {};
-    
-    // create course object
-    courseNew[courseId] = course; 
-    console.log(courseNew);
+        courseTerms = courses[key].terms;
     
     // Loop through course terms
     for (const term of Object.keys(courses[key].terms)) {
       let termInstructors = courses[key].terms[term].instructors;
       
-      // Search for instructor
-      var instructorMatch = termInstructors.find(function(instructor) {
-        //if(instructor === searchValue){
+      // Search for instructor's name or substring of instructors name
+      const instructorMatch = termInstructors.find(function(instructor) {
+      
         if (searchValue.toLowerCase() === instructor.slice(0, searchValue.length).toLowerCase()) {
-          if (!coursesMatch.includes(courseNew)) {
-            coursesMatch.push(courseNew);
+          if (!coursesMatch.includes(courseId)) {
+            coursesMatch.push(courseId);
+            coursesSet[courseId] = course; 
           }
         }
       });
@@ -61,7 +58,7 @@ app.get('/courses/instructor/:id', function (req, res) {
   if(coursesMatch.length === 0){
     console.log('instructor does not exist: ' + searchValue);
   } else {
-    res.json(coursesMatch);
+    res.json(coursesSet);
   }
 
 })
