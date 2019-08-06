@@ -23,43 +23,37 @@ app.get('/', function (req, res) {
 // INSTRUCTOR API
 app.get('/courses/instructor/:id', function (req, res) {
   
- let searchValue = req.params.id;
-  
-  // Set courses to response
+
+  // Assign initial variables
   let courses = data,
-      coursesMatch = [],
-      coursesSet = {};
+      searchValue = req.params.id,
+      coursesMatch = {};
   
   // Loop through courses
   for (const key of Object.keys(courses)) {
     let course = courses[key],
         courseId = key,
-        courseArea = courses[key].course_area,
         courseTerms = courses[key].terms;
     
     // Loop through course terms
-    for (const term of Object.keys(courses[key].terms)) {
+    for (const term of Object.keys(courseTerms)) {
       let termInstructors = courses[key].terms[term].instructors;
       
-      // Search for instructor's name or substring of instructors name
+      // Search for instructor's name
       const instructorMatch = termInstructors.find(function(instructor) {
-      
+        // Check substring of instructors name
         if (searchValue.toLowerCase() === instructor.slice(0, searchValue.length).toLowerCase()) {
-          if (!coursesMatch.includes(courseId)) {
-            coursesMatch.push(courseId);
-            coursesSet[courseId] = course; 
-          }
+          // If course does not already exist in object, add it
+            if(!coursesMatch.hasOwnProperty(courseId)){
+              coursesMatch[courseId] = course; 
+            }
         }
       });
     }
   }
   
   // Return JSON results
-  if(coursesMatch.length === 0){
-    console.log('instructor does not exist: ' + searchValue);
-  } else {
-    res.json(coursesSet);
-  }
+    res.json(coursesMatch);
 
 })
 
