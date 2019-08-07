@@ -1,9 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const coursesData = require('../../data/coursesData');
 
 // GET DATA
-
 var fs = require('fs');
 var data;
 fs.readFile('./data/Courses.json', 'utf8', function (err, contents) {
@@ -11,12 +9,44 @@ fs.readFile('./data/Courses.json', 'utf8', function (err, contents) {
   data = JSON.parse(contents);
 });
 
-// GET INSTRUCTORS
+// INSTRUCTOR ROUTE
 router.get('/', function (req, res) {
-  res.send('instructor');
+  // Assign initial variables
+  let courses = data,
+      instructorList = [];
+
+  // Loop through courses
+  for (const key of Object.keys(courses)) {
+    let course = courses[key],
+        courseId = key,
+        courseTerms = courses[key].terms;
+    
+    // Loop through course terms
+    for (const term of Object.keys(courseTerms)) {
+      let termInstructors = courses[key].terms[term].instructors;
+      
+      // Loop through course term instructors
+      termInstructors.forEach(function (instructor, index) {
+        // If instructor does not already exist in instructors array, add them
+        if(!(instructorList.includes(instructor))){
+          instructorList.push(instructor);
+          console.log(instructor);
+        }
+      });
+    }
+    
+  }
+  
+  // Return JSON results if instructorList array is not empty
+  if(!(instructorList === undefined || instructorList.length == 0)){
+    res.json(instructorList.sort());
+  } else {
+    res.status(400).json({ msg: `No instructors listed` });
+  }
+    
 });
 
-// GET INSTRUCTOR TAUGHT COURSES
+// INSTRUCTOR ROUTE API
 router.get('/:id', function (req, res) {
   
   // Assign initial variables

@@ -5,22 +5,18 @@ const port = 3000;
 
 // ROUTES
 
-// HOME API
+// HOME ROUTE
 app.get('/', function (req, res) {
   res.send('homepage');
 });
 
-
+// INSTRUCTOR ROUTES
 app.use('/courses/instructor', require('./routes/api/instructor'));
 
-// COURSES API
-app.get('/courses/:id', function (req, res) {
-  res.send('courses: '+ req.params.id);
-});
-
+// COURSES ROUTES
+app.use('/courses', require('./routes/api/courses'));
 
 // LISTEN
-
 app.listen(port, function(){
   console.log(`Example app listening on port ${port}!`)
 });
