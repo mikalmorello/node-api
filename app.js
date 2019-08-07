@@ -5,15 +5,13 @@ const port = 3000;
 
 // ROUTES
 
-// HOME ROUTE
-app.get('/', function (req, res) {
-  res.send('homepage');
-});
+// Home Route
+app.use('/', require('./routes/api/home'));
 
-// INSTRUCTOR ROUTES
+// Instructor Routes
 app.use('/courses/instructor', require('./routes/api/instructor'));
 
-// COURSES ROUTES
+// Course Routes
 app.use('/courses', require('./routes/api/courses'));
 
 // LISTEN
