@@ -3,7 +3,7 @@
 
 ## SEAS Course API
 
-The Harvard John A. Paulson School of Engineering and Applied Sciences (SEAS) API uses JSON to allow for the filtering and listing of SEAS courses by **course name** and ***instructor name***.
+The Harvard John A. Paulson School of Engineering and Applied Sciences (SEAS) API uses JSON to allow for the filtering and listing of SEAS courses by **course name** and **instructor name**.
 
 ## Course API Endpoints
 
@@ -12,8 +12,8 @@ The SEAS Course API contains the following endpoints:
  - **/** (root) path will return all of the SEAS courses.
  - **/courses** will return a list of all SEAS course names.
  - **/courses/{courseName}** will return the course object for the specific course.  The course names can be accessed via the "/courses" endpoint.
- - **/courses/instructor** will return a list of all instructors teaching all SEAS courses.
- -  **/courses/instructor/{instructorName}**  will return the any course objects taught by the instructor.  The instructor names can be accessed via the "/courses/instructor" endpoint.  This endpoint is unique in that it also allows for partial searches for names, return results of any instructors that contain that partial name.  For example, 'John Doe' instructed courses will be returned if searched for by "/courses/instructor/Jo".
+ - **/courses/instructor** will return a list of instructors teaching SEAS courses.
+ -  **/courses/instructor/{instructorName}**  will return any courses taught by the instructor / s.  The instructor names can be accessed via the "/courses/instructor" endpoint.  This endpoint is unique in that it also allows for partial searches of instructor names.  For example, 'John Doe' instructed courses will be returned if searched for by "/courses/instructor/Jo", as well as any other instructors whose names begin with "Jo".
 
 ** endpoint variables are not case sensitive.
 
