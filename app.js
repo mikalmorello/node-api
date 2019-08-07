@@ -1,7 +1,11 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
-const port = 3000;
+//const port = 3000;
+
+// Added for Heroku
+const http = require('http');
+const port = process.env.PORT || 3000
 
 // ROUTES
 
