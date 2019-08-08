@@ -1,7 +1,10 @@
 const express = require('express');
+var cors = require('cors');
 const app = express();
 const bodyParser = require('body-parser');
+
 //const port = 3000;
+app.use(cors());
 
 // Added for Heroku
 const http = require('http');
